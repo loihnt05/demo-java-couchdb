@@ -1,0 +1,45 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor files
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# Environment and local config
+.env
+.env.*
+!.env.example
+
+# Logs and runtime files
+*.log
+logs/
+*.pid
+*.pid.lock
+
+# Caches and temp
+.cache/
+tmp/
+temp/
+
+# Java build artifacts
+.gradle/
+build/
+out/
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Test/coverage output
+coverage/
+
+# Local-only demo folders (do not push)
+couchdb/
+java-demo/
+
