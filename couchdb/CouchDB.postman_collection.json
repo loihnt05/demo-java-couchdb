@@ -1,0 +1,571 @@
+{
+  "info": {
+    "_postman_id": "ea3c6218-a464-4e64-a3e8-bde33c35a746",
+    "name": "CouchDB",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "41735274"
+  },
+  "item": [
+    {
+      "name": "Core",
+      "item": [
+        {
+          "name": "CreateDB",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5984/demo_multi_shape",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Insert Order",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"_id\": \"order_event_9001\",\n  \"type\": \"order_event\",\n  \"orderId\": 9001,\n  \"status\": \"created\",\n  \"amount\": 149.95,\n  \"currency\": \"USD\",\n  \"items\": [\n    {\n      \"sku\": \"KB-001\",\n      \"qty\": 1,\n      \"price\": 99.99\n    },\n    {\n      \"sku\": \"MS-002\",\n      \"qty\": 1,\n      \"price\": 49.96\n    }\n  ],\n  \"createdAt\": \"2026-03-30T10:00:00Z\"\n}\n\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5984/demo_multi_shape/order_event_9001",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "order_event_9001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Insert UserProfile",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"_id\": \"user_profile_001\",\n  \"type\": \"user_profile\",\n  \"name\": \"Alice Nguyen\",\n  \"email\": \"alice@example.com\",\n  \"preferences\": {\n    \"theme\": \"dark\",\n    \"language\": \"en\"\n  },\n  \"tags\": [\"beta\", \"newsletter\"]\n}\n\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:5984/demo_multi_shape/user_profile_001",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "user_profile_001"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "API",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "password",
+                  "value": "admin",
+                  "type": "string"
+                },
+                {
+                  "key": "username",
+                  "value": "admin",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://admin:admin@localhost:5984",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read one document by ID",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_multi_shape/user_profile_001/_find",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "user_profile_001",
+                "_find"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Query by type + status",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"selector\": {\n    \"type\": \"order_event\",\n    \"status\": \"created\"\n  },\n  \"sort\": [\n    {\n      \"createdAt\": \"desc\"\n    }\n  ],\n  \"limit\": 10\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_multi_shape/_find",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "_find"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Query ordered view",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/?startkey=[\"created\"]&endkey=[\"created\",{}]&include_docs=true",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                ""
+              ],
+              "query": [
+                {
+                  "key": "startkey",
+                  "value": "[\"created\"]"
+                },
+                {
+                  "key": "endkey",
+                  "value": "[\"created\",{}]"
+                },
+                {
+                  "key": "include_docs",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Stream-like feed for changes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Replica",
+      "item": [
+        {
+          "name": "Prepare source",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_repl_source/_all_docs?include_docs=true",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_repl_source",
+                "_all_docs"
+              ],
+              "query": [
+                {
+                  "key": "include_docs",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Run one-shot replication",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source\": \"http://admin:admin@couchdb1:5984/demo_repl_source\",\n  \"target\": \"http://admin:admin@couchdb2:5984/demo_repl_target\",\n  \"create_target\": true,\n  \"continuous\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/_replicate",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "_replicate"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify target DB",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://admin:admin@localhost:5985/demo_repl_target/_all_docs?include_docs=true",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5985",
+              "path": [
+                "demo_repl_target",
+                "_all_docs"
+              ],
+              "query": [
+                {
+                  "key": "include_docs",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Revision",
+      "item": [
+        {
+          "name": "Create/replace",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"rev_demo\",\n  \"step\": 1,\n  \"message\": \"initial write\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_multi_shape/rev_demo_001",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "rev_demo_001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read current",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_multi_shape/rev_demo_001",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "rev_demo_001"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"rev_demo\",\n  \"step\": 2,\n  \"message\": \"update with current _rev\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_multi_shape/rev_demo_001?rev=5-7d918c035d2d1b7f9a81fb03169e8567",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "rev_demo_001"
+              ],
+              "query": [
+                {
+                  "key": "rev",
+                  "value": "5-7d918c035d2d1b7f9a81fb03169e8567"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reuse stale",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"rev_demo\",\n  \"step\": 3,\n  \"message\": \"stale write should conflict\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_multi_shape/rev_demo_001?rev=6-37e9955cf65ac419babe28a5c24ac482",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "rev_demo_001"
+              ],
+              "query": [
+                {
+                  "key": "rev",
+                  "value": "6-37e9955cf65ac419babe28a5c24ac482"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "All version",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://admin:admin@localhost:5984/demo_multi_shape/rev_demo_001?revs=true",
+              "protocol": "http",
+              "auth": {
+                "user": "admin",
+                "password": "admin"
+              },
+              "host": [
+                "localhost"
+              ],
+              "port": "5984",
+              "path": [
+                "demo_multi_shape",
+                "rev_demo_001"
+              ],
+              "query": [
+                {
+                  "key": "revs",
+                  "value": "true"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
