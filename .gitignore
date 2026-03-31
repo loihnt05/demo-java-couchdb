@@ -39,7 +39,3 @@ target/
 # Test/coverage output
 coverage/
 
-# Local-only demo folders (do not push)
-couchdb/
-java-demo/
-
