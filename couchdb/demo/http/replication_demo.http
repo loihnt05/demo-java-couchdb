@@ -1,0 +1,25 @@
+### CouchDB Replication Demo
+@source = http://admin:admin@localhost:5984
+@target = http://admin:admin@localhost:5985
+@sourceDb = demo_repl_source
+@targetDb = demo_repl_target
+
+### Prepare source DB document list
+GET {{source}}/{{sourceDb}}/_all_docs?include_docs=true
+
+### Run one-shot replication source -> target
+POST {{source}}/_replicate
+Content-Type: application/json
+
+{
+  "source": "http://admin:admin@couchdb1:5984/{{sourceDb}}",
+  "target": "http://admin:admin@couchdb2:5984/{{targetDb}}",
+  "create_target": true,
+  "continuous": false
+}
+
+### Verify target DB now has replicated docs
+GET {{target}}/{{targetDb}}/_all_docs?include_docs=true
+
+
+

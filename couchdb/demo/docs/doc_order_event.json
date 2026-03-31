@@ -1,0 +1,22 @@
+{
+  "_id": "order_event_9001",
+  "type": "order_event",
+  "orderId": 9001,
+  "status": "created",
+  "amount": 149.95,
+  "currency": "USD",
+  "items": [
+    {
+      "sku": "KB-001",
+      "qty": 1,
+      "price": 99.99
+    },
+    {
+      "sku": "MS-002",
+      "qty": 1,
+      "price": 49.96
+    }
+  ],
+  "createdAt": "2026-03-30T10:00:00Z"
+}
+

@@ -1,0 +1,40 @@
+### Native CouchDB API (DB = API)
+@base = http://admin:admin@localhost:5984
+@db = demo_multi_shape
+
+### Health check
+GET {{base}}/
+
+### Read one document by ID
+GET {{base}}/{{db}}/user_profile_001
+
+### Query by type + status (Mango)
+POST {{base}}/{{db}}/_find
+Content-Type: application/json
+
+{
+  "use_index": [
+    "idx_type_status_createdAt",
+    "idx_type_status_createdAt"
+  ],
+  "selector": {
+    "type": "order_event",
+    "status": "created",
+    "createdAt": {
+      "$gte": null
+    }
+  },
+  "sort": [
+    {
+      "createdAt": "desc"
+    }
+  ],
+  "limit": 10
+}
+
+### Query ordered view
+GET {{base}}/{{db}}/_design/native_api/_view/order_events_by_status?startkey=["created"]&endkey=["created",{}]&include_docs=true
+
+### Stream-like feed for changes
+GET {{base}}/{{db}}/_changes?since=0&include_docs=true
+

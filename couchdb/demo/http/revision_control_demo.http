@@ -1,0 +1,49 @@
+### CouchDB Revision Control Demo (_rev)
+@base = http://admin:admin@localhost:5984
+@db = demo_multi_shape
+@docId = rev_demo_001
+@currentRev = 1-placeholder
+@latestRev = 1-placeholder
+
+### 1) Create/replace demo document (new _rev)
+PUT {{base}}/{{db}}/{{docId}}
+Content-Type: application/json
+
+{
+  "type": "rev_demo",
+  "step": 1,
+  "message": "initial write"
+}
+
+### 2) Read current document and copy _rev as currentRev
+GET {{base}}/{{db}}/{{docId}}
+
+### 3) Update using currentRev (expected: success)
+# Replace {{currentRev}} with _rev from step 2.
+PUT {{base}}/{{db}}/{{docId}}?rev={{currentRev}}
+Content-Type: application/json
+
+{
+  "type": "rev_demo",
+  "step": 2,
+  "message": "update with current _rev"
+}
+
+### 4) Reuse stale currentRev again (expected: 409 conflict)
+PUT {{base}}/{{db}}/{{docId}}?rev={{currentRev}}
+Content-Type: application/json
+
+{
+  "type": "rev_demo",
+  "step": 3,
+  "message": "stale write should conflict"
+}
+
+### 5) Read latest document and copy _rev as latestRev
+GET {{base}}/{{db}}/{{docId}}
+
+### 6) All Version
+GET {{base}}/{{db}}/{{docId}}?revs=true
+
+
+

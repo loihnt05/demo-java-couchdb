@@ -1,0 +1,13 @@
+{
+  "index": {
+    "fields": [
+      "type",
+      "status",
+      "createdAt"
+    ]
+  },
+  "name": "idx_type_status_createdAt",
+  "ddoc": "idx_type_status_createdAt",
+  "type": "json"
+}
+

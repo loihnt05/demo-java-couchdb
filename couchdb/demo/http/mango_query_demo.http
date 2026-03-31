@@ -1,0 +1,102 @@
+### CouchDB Mango JSON Query Demo
+@base = http://admin:admin@localhost:5984
+@db = demo_multi_shape
+
+### 1) Create index for selector + sort
+POST {{base}}/{{db}}/_index
+Content-Type: application/json
+
+{
+  "index": {
+    "fields": ["type", "status", "createdAt"]
+  },
+  "name": "idx_type_status_createdAt",
+  "ddoc": "idx_type_status_createdAt",
+  "type": "json"
+}
+
+### 1b) Create index for multi-status filtering
+POST {{base}}/{{db}}/_index
+Content-Type: application/json
+
+{
+  "index": {
+    "fields": ["type", "status"]
+  },
+  "name": "idx_type_status",
+  "ddoc": "idx_type_status",
+  "type": "json"
+}
+
+### 2) Query all created order events (newest first)
+POST {{base}}/{{db}}/_find
+Content-Type: application/json
+
+{
+  "use_index": ["idx_type_status_createdAt", "idx_type_status_createdAt"],
+  "selector": {
+    "type": "order_event",
+    "status": "created",
+    "createdAt": {
+      "$gte": null
+    }
+  },
+  "sort": [
+    { "createdAt": "desc" }
+  ],
+  "fields": ["_id", "orderId", "status", "createdAt", "amount"],
+  "limit": 10
+}
+
+### 3) Query with range filter (createdAt >= 2026-03-30T10:30:00Z)
+POST {{base}}/{{db}}/_find
+Content-Type: application/json
+
+{
+  "selector": {
+    "type": "order_event",
+    "status": "created",
+    "createdAt": {
+      "$gte": "2026-03-30T10:30:00Z"
+    }
+  },
+  "sort": [
+    { "createdAt": "asc" }
+  ],
+  "fields": ["_id", "orderId", "createdAt"],
+  "limit": 10
+}
+
+### 4) Query using $in for multi-status
+POST {{base}}/{{db}}/_find
+Content-Type: application/json
+
+{
+  "selector": {
+    "type": "order_event",
+    "status": {
+      "$in": ["created", "paid"]
+    }
+  },
+  "fields": ["_id", "status", "amount"],
+  "limit": 20
+}
+
+### 5) (Optional) Explain query plan
+POST {{base}}/{{db}}/_explain
+Content-Type: application/json
+
+{
+  "selector": {
+    "type": "order_event",
+    "status": "created",
+    "createdAt": {
+      "$gte": null
+    }
+  },
+  "sort": [
+    { "createdAt": "desc" }
+  ]
+}
+
+

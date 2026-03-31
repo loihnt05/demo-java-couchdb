@@ -1,0 +1,13 @@
+{
+  "_id": "_design/native_api",
+  "views": {
+    "by_type": {
+      "map": "function (doc) { if (doc.type) { emit([doc.type, doc._id], null); } }"
+    },
+    "order_events_by_status": {
+      "map": "function (doc) { if (doc.type === 'order_event' && doc.status) { emit([doc.status, doc.createdAt || null], { orderId: doc.orderId, amount: doc.amount, currency: doc.currency }); } }"
+    }
+  },
+  "language": "javascript"
+}
+

@@ -1,0 +1,12 @@
+{
+  "_id": "user_profile_001",
+  "type": "user_profile",
+  "name": "Alice Nguyen",
+  "email": "alice@example.com",
+  "preferences": {
+    "theme": "dark",
+    "language": "en"
+  },
+  "tags": ["beta", "newsletter"]
+}
+

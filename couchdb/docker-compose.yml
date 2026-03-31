@@ -1,0 +1,22 @@
+services:      
+  couchdb1:
+    image: couchdb
+    hostname: couchdb1
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+      - NODENAME=couchdb1
+
+  couchdb2:
+    image: couchdb
+    hostname: couchdb2
+    ports:
+      - "5985:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+      - NODENAME=couchdb2
+volumes:
+  couchdb_data:

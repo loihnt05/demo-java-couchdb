@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/scripts/bootstrap_replication_demo.sh">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/scripts/bootstrap_replication_demo.sh" />
+              <option name="updatedContent" value="#!/usr/bin/env bash&#10;set -euo pipefail&#10;&#10;SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&amp; pwd)&quot;&#10;ROOT_DIR=&quot;$(cd &quot;${SCRIPT_DIR}/..&quot; &amp;&amp; pwd)&quot;&#10;&#10;SOURCE_URL=&quot;${SOURCE_URL:-http://localhost:5984}&quot;&#10;TARGET_URL=&quot;${TARGET_URL:-http://localhost:5985}&quot;&#10;COUCH_USER=&quot;${COUCH_USER:-admin}&quot;&#10;COUCH_PASS=&quot;${COUCH_PASS:-admin}&quot;&#10;SOURCE_DB=&quot;${SOURCE_DB:-demo_repl_source}&quot;&#10;TARGET_DB=&quot;${TARGET_DB:-demo_repl_target}&quot;&#10;RESET_DB=&quot;${RESET_DB:-true}&quot;&#10;&#10;DOC1_PATH=&quot;${ROOT_DIR}/demo/docs/doc_user_profile.json&quot;&#10;DOC2_PATH=&quot;${ROOT_DIR}/demo/docs/doc_order_event.json&quot;&#10;&#10;if [ ! -f &quot;${DOC1_PATH}&quot; ] || [ ! -f &quot;${DOC2_PATH}&quot; ]; then&#10;  echo &quot;Document JSON files are missing under ${ROOT_DIR}/demo/docs&quot;&#10;  exit 1&#10;fi&#10;&#10;echo &quot;Preparing replication demo&quot;&#10;echo &quot;- Source: ${SOURCE_URL}/${SOURCE_DB}&quot;&#10;echo &quot;- Target: ${TARGET_URL}/${TARGET_DB}&quot;&#10;&#10;if [ &quot;${RESET_DB}&quot; = &quot;true&quot; ]; then&#10;  curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; -X DELETE &quot;${SOURCE_URL}/${SOURCE_DB}&quot; &gt;/dev/null || true&#10;  curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; -X DELETE &quot;${TARGET_URL}/${TARGET_DB}&quot; &gt;/dev/null || true&#10;fi&#10;&#10;curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; -X PUT &quot;${SOURCE_URL}/${SOURCE_DB}&quot; &gt;/dev/null || true&#10;curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; -X PUT &quot;${TARGET_URL}/${TARGET_DB}&quot; &gt;/dev/null || true&#10;&#10;curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; \&#10;  -H &quot;Content-Type: application/json&quot; \&#10;  -X PUT &quot;${SOURCE_URL}/${SOURCE_DB}/user_profile_001&quot; \&#10;  --data-binary &quot;@${DOC1_PATH}&quot; &gt;/dev/null&#10;&#10;curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; \&#10;  -H &quot;Content-Type: application/json&quot; \&#10;  -X PUT &quot;${SOURCE_URL}/${SOURCE_DB}/order_event_9001&quot; \&#10;  --data-binary &quot;@${DOC2_PATH}&quot; &gt;/dev/null&#10;&#10;echo &quot;Seeded source DB with 2 docs.&quot;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/scripts/run_replication_demo.sh">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/scripts/run_replication_demo.sh" />
+              <option name="updatedContent" value="#!/usr/bin/env bash&#10;set -euo pipefail&#10;&#10;SOURCE_URL=&quot;${SOURCE_URL:-http://localhost:5984}&quot;&#10;TARGET_URL=&quot;${TARGET_URL:-http://localhost:5985}&quot;&#10;COUCH_USER=&quot;${COUCH_USER:-admin}&quot;&#10;COUCH_PASS=&quot;${COUCH_PASS:-admin}&quot;&#10;SOURCE_DB=&quot;${SOURCE_DB:-demo_repl_source}&quot;&#10;TARGET_DB=&quot;${TARGET_DB:-demo_repl_target}&quot;&#10;CONTINUOUS=&quot;${CONTINUOUS:-false}&quot;&#10;SOURCE_REPL_HOST=&quot;${SOURCE_REPL_HOST:-couchdb1:5984}&quot;&#10;TARGET_REPL_HOST=&quot;${TARGET_REPL_HOST:-couchdb2:5984}&quot;&#10;&#10;SOURCE_REPL_SPEC=&quot;${SOURCE_REPL_SPEC:-http://${COUCH_USER}:${COUCH_PASS}@${SOURCE_REPL_HOST}/${SOURCE_DB}}&quot;&#10;TARGET_REPL_SPEC=&quot;${TARGET_REPL_SPEC:-http://${COUCH_USER}:${COUCH_PASS}@${TARGET_REPL_HOST}/${TARGET_DB}}&quot;&#10;&#10;echo &quot;Running replication&quot;&#10;echo &quot;- source spec: ${SOURCE_REPL_SPEC}&quot;&#10;echo &quot;- target spec: ${TARGET_REPL_SPEC}&quot;&#10;echo &quot;- source node API: ${SOURCE_URL}&quot;&#10;echo &quot;- target node API (host check): ${TARGET_URL}&quot;&#10;&#10;auth_payload=$(cat &lt;&lt;JSON&#10;{&#10;  &quot;source&quot;: &quot;${SOURCE_REPL_SPEC}&quot;,&#10;  &quot;target&quot;: &quot;${TARGET_REPL_SPEC}&quot;,&#10;  &quot;create_target&quot;: true,&#10;  &quot;continuous&quot;: ${CONTINUOUS}&#10;}&#10;JSON&#10;)&#10;&#10;curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; \&#10;  -H &quot;Content-Type: application/json&quot; \&#10;  -X POST &quot;${SOURCE_URL}/_replicate&quot; \&#10;  --data-binary &quot;${auth_payload}&quot; | cat&#10;&#10;echo&#10;&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/scripts/validate_replication_demo.sh">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/scripts/validate_replication_demo.sh" />
+              <option name="updatedContent" value="#!/usr/bin/env bash&#10;set -euo pipefail&#10;&#10;SOURCE_URL=&quot;${SOURCE_URL:-http://localhost:5984}&quot;&#10;TARGET_URL=&quot;${TARGET_URL:-http://localhost:5985}&quot;&#10;COUCH_USER=&quot;${COUCH_USER:-admin}&quot;&#10;COUCH_PASS=&quot;${COUCH_PASS:-admin}&quot;&#10;SOURCE_DB=&quot;${SOURCE_DB:-demo_repl_source}&quot;&#10;TARGET_DB=&quot;${TARGET_DB:-demo_repl_target}&quot;&#10;&#10;echo &quot;Validating replication result...&quot;&#10;&#10;source_docs=$(curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; &quot;${SOURCE_URL}/${SOURCE_DB}/_all_docs&quot;)&#10;target_docs=$(curl -sS -u &quot;${COUCH_USER}:${COUCH_PASS}&quot; &quot;${TARGET_URL}/${TARGET_DB}/_all_docs&quot;)&#10;&#10;echo &quot;Source IDs:&quot;&#10;echo &quot;${source_docs}&quot; | grep -o '&quot;id&quot;:&quot;[^&quot;]*&quot;' | cat&#10;&#10;echo &quot;Target IDs:&quot;&#10;echo &quot;${target_docs}&quot; | grep -o '&quot;id&quot;:&quot;[^&quot;]*&quot;' | cat&#10;&#10;echo &quot;Checking required documents...&quot;&#10;echo &quot;${target_docs}&quot; | grep -q '&quot;id&quot;:&quot;user_profile_001&quot;'&#10;echo &quot;${target_docs}&quot; | grep -q '&quot;id&quot;:&quot;order_event_9001&quot;'&#10;&#10;echo &quot;Replication demo validated: target contains replicated docs.&quot;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
